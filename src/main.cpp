@@ -13,4 +13,5 @@ int main()
    print("Test");
    print(1);
    print(3.14);
+   ruak::hello();
 }

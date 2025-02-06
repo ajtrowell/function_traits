@@ -3,3 +3,5 @@
 *.exe
 *.out
 build/
+# clangd nvim index
+.cache/

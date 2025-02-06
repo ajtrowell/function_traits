@@ -5,6 +5,6 @@
 namespace ruak
 {
 
-   inline void hello() { std::cout << "Hello world.\n"; }
+   inline void hello() { std::cout << "Hello world. This is a test.\n"; }
 
 }
