@@ -1,11 +1,12 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.5)
 project(ruak)
 
 set(CMAKE_CXX_STANDARD 20)
 
-file(GLOB srcs src/*.cpp include/*.hpp)
+file(GLOB srcs src/*.cpp)
 
-#target_include_directories(${PROJECT_NAME} PRIVATE "include")
+add_executable(${PROJECT_NAME} ${srcs})
+target_include_directories(${PROJECT_NAME} PRIVATE "include")
 
 include(FetchContent)
 
@@ -17,6 +18,4 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(glaze)
-
-add_executable(${PROJECT_NAME} ${srcs})
 target_link_libraries(${PROJECT_NAME} glaze::glaze)
