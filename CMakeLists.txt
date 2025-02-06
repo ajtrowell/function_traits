@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 file(GLOB srcs src/*.cpp include/*.hpp)
 
-target_include_directories(${PROJECT_NAME} PRIVATE "include")
+#target_include_directories(${PROJECT_NAME} PRIVATE "include")
 
 include(FetchContent)
 
