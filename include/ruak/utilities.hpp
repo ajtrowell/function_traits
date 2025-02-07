@@ -24,4 +24,28 @@ namespace ruak
       using argument = typename std::tuple_element<N, std::tuple<Args...>>::type;
    };
 
+   // Specialization for member function pointers.
+   template <typename R, typename T, typename... Args>
+   struct function_traits<R (T::*)(Args...)>
+   {
+      using return_type = R;
+      static constexpr std::size_t arity = sizeof...(Args);
+      using args_tuple = std::tuple<Args...>;
+
+      template <std::size_t N>
+      using argument = typename std::tuple_element<N, std::tuple<Args...>>::type;
+   };
+
+   // Specialization for std::function
+   template <typename R, typename... Args>
+   struct function_traits<std::function<R(Args...)>>
+   {
+      using return_type = R;
+      static constexpr std::size_t arity = sizeof...(Args);
+      using args_tuple = std::tuple<Args...>;
+
+      template <std::size_t N>
+      using argument = typename std::tuple_element<N, std::tuple<Args...>>::type;
+   };
+
 }
