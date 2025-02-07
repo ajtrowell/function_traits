@@ -40,4 +40,11 @@ int main()
    using lambda_trait = function_traits<decltype(myLambda)>;
    static_assert(lambda_trait::arity == 0, "0 arguments in myLambda\n");
    static_assert(std::is_same_v<lambda_trait::return_type, float>, "myLambda should return float but failed to.\n");
+
+   // Test with function reference
+   auto& foo_ref = foo;
+   using foo_ref_traits = function_traits<decltype(foo_ref)>;
+   static_assert(foo_ref_traits::arity == 2, "foo should have 2 parameters");
+   static_assert(std::is_same_v<double, foo_ref_traits::return_type>, "Foo return type should be double");
+   static_assert(std::is_same_v<int, foo_ref_traits::argument<0>>, "Foo arg 0 should be int");
 }
