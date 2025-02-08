@@ -37,9 +37,21 @@ namespace ruak
       using argument = typename std::tuple_element<N, std::tuple<Args...>>::type;
    };
 
-   // Specialization for member function pointers.
+   // Specialization for non-const member function pointers.
    template <typename R, typename T, typename... Args>
    struct function_traits<R (T::*)(Args...)>
+   {
+      using return_type = R;
+      static constexpr std::size_t arity = sizeof...(Args);
+      using args_tuple = std::tuple<Args...>;
+
+      template <std::size_t N>
+      using argument = typename std::tuple_element<N, std::tuple<Args...>>::type;
+   };
+
+   // Specialization for const member function pointers.
+   template <typename R, typename T, typename... Args>
+   struct function_traits<R (T::*)(Args...) const>
    {
       using return_type = R;
       static constexpr std::size_t arity = sizeof...(Args);
@@ -70,6 +82,11 @@ namespace ruak
       void operator()(int, double, double) {}
    };
 
+   struct fubar_const
+   {
+      void operator()(int, double, double) const {}
+   };
+
    inline void test_function_traits()
    {
       using foo_traits = ruak::function_traits<decltype(&foo)>;
@@ -81,6 +98,12 @@ namespace ruak
       using bar_traits = ruak::function_traits<decltype(&bar)>;
       static_assert(std::is_same_v<bar_traits::return_type, void>, "bar should return void but failed to.\n");
 
+      // Test for non-const member function pointer (functor)
+      using fubar_const_trait = function_traits<fubar_const>;
+      // using weird_trait = function_traits<decltype(&fubar::operator())>;
+      static_assert(fubar_const_trait::arity == 3, "3 arguments in fubar functor.\n");
+
+      // Test for const member function pointer (functor)
       using fubar_trait = function_traits<fubar>;
       // using weird_trait = function_traits<decltype(&fubar::operator())>;
       static_assert(fubar_trait::arity == 3, "3 arguments in fubar functor.\n");
