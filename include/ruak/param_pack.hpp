@@ -19,4 +19,13 @@ namespace ruak
       return (args + ...);
    }
 
+   inline void test_packs()
+   {
+      print("Test");
+      print(1);
+      print(3.14);
+      ruak::hello();
+      std::cout << "The sum is: " << add(1, 2, 3) << "\n";
+   }
+
 }
